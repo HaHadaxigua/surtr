@@ -5,6 +5,8 @@ Setup everything to your environment, only against ubuntu at present.
 ## Excepts
 
 - [ ] http
+    - [ ] list files
+    - [ ] find file
     - [x] download file
     - [ ] upload file
 - [ ] set ssh key
