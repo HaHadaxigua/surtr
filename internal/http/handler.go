@@ -20,7 +20,14 @@ func routers(r gin.IRouter) {
 
 // list will return files on current machine
 func list(c *gin.Context) {
-	c.Writer.WriteString("hello")
+	resp, err := file.New().List()
+	if err != nil {
+		logrus.Errorf("failed to list files: %v", err)
+		c.JSON(http.StatusInternalServerError, Err(err))
+		return
+	}
+
+	c.JSON(http.StatusOK, Ok(resp))
 }
 
 // download will download file with expected file name
