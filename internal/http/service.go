@@ -3,12 +3,14 @@ package http
 import (
 	"context"
 	"fmt"
+
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 
 	. "github.com/HaHadaxigua/surtr/global"
+	"github.com/HaHadaxigua/surtr/internal/http/middlewares"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
@@ -22,8 +24,9 @@ type Service struct {
 
 func New() *Service {
 	engin := gin.Default()
-	engin.Use()
+	engin.Use(middlewares.CrossMiddleware())
 	engin.MaxMultipartMemory = 5 << 30
+
 	engin.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	apiRouter := engin.Group("/api")
 	routers(apiRouter)
