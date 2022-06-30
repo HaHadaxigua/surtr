@@ -3,17 +3,19 @@ package http
 import (
 	"context"
 	"fmt"
-	"github.com/HaHadaxigua/surtr/internal/http/middlewares"
+
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 
 	. "github.com/HaHadaxigua/surtr/global"
+	"github.com/HaHadaxigua/surtr/internal/http/middlewares"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 type Service struct {
