@@ -94,9 +94,9 @@ func (s *service) List() (*ListResp, error) {
 	var resp ListResp
 	for _, entry := range dirEntries {
 		if !entry.IsDir() {
-			info, err := newInfo(entry.Name())
+			info, err := newInfo(filepath.Join(s.storage, entry.Name()))
 			if err != nil {
-				logrus.Infof("failed to open file: %s, %v", entry.Name(), err)
+				logrus.Errorf("failed to open file: %s, %v", entry.Name(), err)
 				return nil, err
 			}
 			resp.List = append(resp.List, &ListFileItem{
