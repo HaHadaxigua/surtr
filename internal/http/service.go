@@ -14,8 +14,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
-	swaggerFiles "github.com/swaggo/files"
-	"github.com/swaggo/gin-swagger"
 )
 
 type Service struct {
@@ -28,7 +26,7 @@ func New(configPath ...string) (*Service, error) {
 	engin.Use(middlewares.CrossMiddleware())
 	engin.MaxMultipartMemory = 5 << 30
 
-	engin.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	//engin.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	apiRouter := engin.Group("/api")
 	routers(apiRouter)
 

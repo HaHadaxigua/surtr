@@ -5,10 +5,10 @@ Setup everything to your environment, only against ubuntu at present.
 ## Excepts
 
 - [ ] http
-    - [ ] list files
+    - [x] list files
     - [ ] find file
     - [x] download file
-    - [ ] upload file
+    - [x] upload file
 - [ ] set ssh key
 - [ ] setup git
     - [ ] install git

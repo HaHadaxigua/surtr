@@ -18,6 +18,12 @@ func routers(r gin.IRouter) {
 	fileGroup.POST("/upload", upload)
 }
 
+// List
+// @Tag File API
+// @Title List File
+// @Description list files
+// @Success 200 {object} file.ListResp The Response object
+// @router /api/file/list [get]
 // list will return files on current machine
 func list(c *gin.Context) {
 	resp, err := file.New().List()
