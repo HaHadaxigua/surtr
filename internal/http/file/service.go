@@ -19,13 +19,9 @@ type service struct {
 	storage string
 }
 
-func New(v ...string) *service {
-	storage := global.StoragePath
-	if v != nil {
-		storage = v[0]
-	}
+func New() *service {
 	return &service{
-		storage: storage,
+		storage: global.Conf.Storage,
 	}
 }
 
