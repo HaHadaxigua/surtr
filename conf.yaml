@@ -1,3 +1,2 @@
-http_config:
-  port: 8090
-home_dir: /home/ubuntu
+port: 8091
+home_dir: "/Users/dh/test"

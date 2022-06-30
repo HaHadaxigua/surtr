@@ -23,7 +23,7 @@ type service struct {
 
 func New() *service {
 	return &service{
-		storage: global.Conf.Storage,
+		storage: global.GetStoragePath(),
 	}
 }
 
@@ -64,8 +64,8 @@ func (s *service) Download(req *DownloadReq) (resp *DownloadResp, err error) {
 }
 
 type UploadReq struct {
-	File       io.Reader             `json:"file"`
-	FileHeader *multipart.FileHeader `json:"fileHeader"`
+	File       io.Reader
+	FileHeader *multipart.FileHeader
 }
 
 func (s *service) Upload(req *UploadReq) error {
@@ -91,6 +91,11 @@ func (s *service) List() (*ListResp, error) {
 		return nil, fmt.Errorf("failed to read folder: %s, %v", s.storage, err)
 	}
 
+	newFileDownloadApiPath := func(filename string) string {
+		fileDownloadApiPrefix := fmt.Sprintf("%s%s", global.GetApiAddr(), "file/download?name=%s")
+		return fmt.Sprintf(fileDownloadApiPrefix, filename)
+	}
+
 	var resp ListResp
 	for _, entry := range dirEntries {
 		if !entry.IsDir() {
@@ -101,7 +106,7 @@ func (s *service) List() (*ListResp, error) {
 			}
 			resp.List = append(resp.List, &ListFileItem{
 				Info: *info,
-				Link: global.NewFileDownloadApiPath(entry.Name()),
+				Link: newFileDownloadApiPath(entry.Name()),
 			})
 		}
 	}
@@ -111,10 +116,10 @@ func (s *service) List() (*ListResp, error) {
 
 type Info struct {
 	Filename   string `json:"filename"`
-	IsDir      bool   `json:"isDir,omitempty"`
-	Size       string `json:"size,omitempty"`
+	IsDir      bool   `json:"isDir"`
+	Size       string `json:"size"`
 	Permission string `json:"permission"`
-	ModifyTime string `json:"modifyTime,omitempty"`
+	ModifyTime string `json:"modifyTime"`
 }
 
 func newInfo(filename string) (*Info, error) {

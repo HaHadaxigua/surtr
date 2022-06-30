@@ -20,9 +20,10 @@ import (
 
 type Service struct {
 	server *http.Server
+	conf   *Config
 }
 
-func New() *Service {
+func New(configPath ...string) (*Service, error) {
 	engin := gin.Default()
 	engin.Use(middlewares.CrossMiddleware())
 	engin.MaxMultipartMemory = 5 << 30
@@ -31,13 +32,26 @@ func New() *Service {
 	apiRouter := engin.Group("/api")
 	routers(apiRouter)
 
+	var (
+		conf *Config
+		err  error
+		path string
+	)
+	if configPath != nil {
+		path = configPath[0]
+	}
+	conf, err = NewConfig(path)
+	if err != nil {
+		return nil, err
+	}
 	return &Service{
 		server: &http.Server{
-			Addr:           Conf.Domain,
+			Addr:           conf.Addr,
 			Handler:        engin,
 			MaxHeaderBytes: 1 << 20,
 		},
-	}
+		conf: conf,
+	}, nil
 }
 
 func (s *Service) Start(ctx context.Context) error {
@@ -59,6 +73,7 @@ func (s *Service) Start(ctx context.Context) error {
 		}
 	}()
 
+	logrus.Infof("listen on %s", s.conf.Addr)
 	return s.server.ListenAndServe()
 }
 

@@ -1,8 +1,9 @@
 package middlewares
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 func CrossMiddleware() gin.HandlerFunc {
@@ -18,6 +19,5 @@ func CrossMiddleware() gin.HandlerFunc {
 		if method == "OPTIONS" {
 			c.AbortWithStatus(http.StatusNoContent)
 		}
-
 	}
 }

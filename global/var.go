@@ -1,11 +1,22 @@
 package global
 
-import "fmt"
-
 var (
-	fileDownloadApiPrefix = fmt.Sprintf("http://52.82.65.36:%d/%s", HttpPort, "api/file/download?name=%s")
+	storagePath string
+	apiAddr     string
 )
 
-func NewFileDownloadApiPath(filename string) string {
-	return fmt.Sprintf(fileDownloadApiPrefix, filename)
+func GetStoragePath() string {
+	return storagePath
+}
+
+func setStoragePath(v string) {
+	storagePath = v
+}
+
+func setApiAddr(v string) {
+	apiAddr = v
+}
+
+func GetApiAddr() string {
+	return apiAddr
 }
