@@ -1,0 +1,3 @@
+http_config:
+  port: 8090
+home_dir: /home/ubuntu

@@ -5,6 +5,6 @@ const (
 )
 
 const (
-	HttpDomain  = ":8090"
+	HttpPort    = 8090
 	StoragePath = "surtr/storage"
 )
