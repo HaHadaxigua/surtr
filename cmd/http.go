@@ -13,8 +13,21 @@ func NewHttpCommand() *cli.Command {
 		Description: "start http server",
 		Usage:       "Surtr http",
 		Aliases:     []string{"h"},
+		Flags: []cli.Flag{
+			&cli.StringFlag{
+				Name:        "conf",
+				Aliases:     []string{"c"},
+				DefaultText: "config http service",
+				Usage:       "surtr http -conf xxx.yaml",
+				Required:    false,
+			},
+		},
 		Action: func(c *cli.Context) error {
-			http.New().Start(c.Context)
+			scv, err := http.New(c.String("c"))
+			if err != nil {
+				return err
+			}
+			scv.Start(c.Context)
 			return nil
 		},
 	}
