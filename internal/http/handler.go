@@ -86,7 +86,7 @@ func upload(c *gin.Context) {
 
 func sleep(c *gin.Context) {
 	type req struct {
-		timeS int `json:"time" form:"time"`
+		TimeS int `json:"time" form:"time"`
 	}
 	var r req
 	if err := c.BindQuery(&r); err != nil {
@@ -94,6 +94,7 @@ func sleep(c *gin.Context) {
 		return
 	}
 
-	time.Sleep(time.Duration(r.timeS) * time.Second)
+	time.Sleep(time.Duration(r.TimeS) * time.Second)
+	c.Writer.Write([]byte(fmt.Sprintf("%d", r.TimeS)))
 	c.JSON(http.StatusOK, Ok("hello"))
 }
