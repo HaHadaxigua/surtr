@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"reflect"
+	"time"
 
 	"github.com/HaHadaxigua/surtr/internal/http/file"
 
@@ -16,6 +17,7 @@ func routers(r gin.IRouter) {
 	fileGroup.GET("/list", list)
 	fileGroup.GET("/download", download)
 	fileGroup.POST("/upload", upload)
+	fileGroup.GET("/sleep", sleep)
 }
 
 // List
@@ -80,4 +82,18 @@ func upload(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, Ok(nil))
+}
+
+func sleep(c *gin.Context) {
+	type req struct {
+		timeS int `json:"time" form:"time"`
+	}
+	var r req
+	if err := c.BindQuery(&r); err != nil {
+		c.JSON(http.StatusBadRequest, Err(err))
+		return
+	}
+
+	time.Sleep(time.Duration(r.timeS) * time.Second)
+	c.JSON(http.StatusOK, Ok("hello"))
 }
